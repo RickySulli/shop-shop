@@ -2,23 +2,42 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 
+import { useStoreContext } from "../utils/GlobalState";
+import { UPDATE_PRODUCTS } from "../utils/actions";
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from '../assets/spinner.gif'
 
 function Detail() {
-  const { id } = useParams();
+const [state, dispatch] = useStoreContext();
+const { id } = useParams();
+const [currentProduct, setCurrentProduct] = useState({})
+const { loading, data } = useQuery(QUERY_PRODUCTS);
+const { products } = state;
 
-  const [currentProduct, setCurrentProduct] = useState({})
+useEffect(() => {
+  if(products.length) {
+    setCurrentProduct(products.find(product => product._id === id));
+  } else if (data) {
+    dispatch({
+      type: UPDATE_PRODUCTS,
+      products: data.products
+    });
+  }
+}, [products, data, dispatch, id]);
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  // const { id } = useParams();
 
-  const products = data?.products || [];
+  // const [currentProduct, setCurrentProduct] = useState({})
 
-  useEffect(() => {
-    if (products.length) {
-      setCurrentProduct(products.find(product => product._id === id));
-    }
-  }, [products, id]);
+  // const { loading, data } = useQuery(QUERY_PRODUCTS);
+
+  // const products = data?.products || [];
+
+  // useEffect(() => {
+  //   if (products.length) {
+  //     setCurrentProduct(products.find(product => product._id === id));
+  //   }
+  // }, [products, id]);
 
   return (
     <>

@@ -58,6 +58,9 @@ const Cart = () => {
             <span>(log in to check out)</span>
         }
       </div>
+      <button role="link">
+      Checkout
+    </button>
     </div>
   ) : (
     <h3>

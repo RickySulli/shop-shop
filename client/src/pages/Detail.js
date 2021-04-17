@@ -15,7 +15,7 @@ import Cart from "../components/Cart";
 
 import { idbPromise } from '../utils/helpers';
 
-// import { useStoreContext } from "../utils/GlobalState";
+
 
 function Detail() {
   const dispatch = useDispatch();

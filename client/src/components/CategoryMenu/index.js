@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { useQuery } from '@apollo/react-hooks';
 import { QUERY_CATEGORIES } from "../../utils/queries";
-import { useStoreContext } from "../../utils/GlobalState";
+
 import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY, UPDATE_PRODUCTS } from "../../utils/actions";
 import { idbPromise } from '../../utils/helpers';
+import { useSelector, useDispatch} from 'react-redux';
 
 
 
 function CategoryMenu() {
-  const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
-  const [state, dispatch] = useStoreContext();
+  const state = useSelector()
+  const dispatch = useDispatch();
+  
   const { categories } = state;
+
+  const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
+
     useEffect(() => {
       //if categoryData exists or has changed from the response of useQuery, then run dispatch()
       if(categoryData) {
